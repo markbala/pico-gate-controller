@@ -1,4 +1,6 @@
-# Raspberry Pi Pico W - Gate Controller via Relay Switch
+# Make a Dumb Gate Controller Smart
+
+Home Assistant to Control a Pico Pi W to Trigger a Gate Controller Button Press via a Relay Switch
 
 - A lightweight web server that runs on a **Raspberry Pi Pico W** to toggle a relay switch.
 - Easily integrated into Home Assistant to work with sensors, automations and scripts
@@ -42,7 +44,7 @@ git clone https://github.com/<your-username>/pico-gate-controller.git
 cd pico-gate-controller
 ```
 
-### 3. Create your secrets
+### 3. Input WiFi Credentials
 Copy the example file:
 ```bash
 cp src/secrets.example.py src/secrets.py
@@ -73,15 +75,14 @@ mpremote cp src/utils.py :/utils.py
 mpremote cp src/secrets.py :/secrets.py
 ```
 
-
 ### 5. Reboot and check
 - Reboot
 - Open the serial console — you should see Wi-Fi connect logs and the Pico’s IP address.  
-- Visit `http://<pico-ip>/ in a browser.  
+- Visit `http://<pico-ip>/` in a browser. Should be a local IP, e.g.`http://192.168.x.x`  
 
 ## Security Notes
 
-- No TLS, no strong authentication.
+- No TLS
 - Use only on private LANs or behind a VPN / reverse proxy (Tailscale, Cloudflare Tunnel).
 - Never expose directly to the internet.
 
@@ -90,7 +91,7 @@ mpremote cp src/secrets.py :/secrets.py
 ## 6. Home Assistant Integration
 
 You can call the Pico endpoints from Home Assistant using `rest_command`, then wrap them in a `script` and trigger them via an `automation` or UI button.
-```
+
 ### 1) REST Commands (`configuration.yaml`)
 
 ```yaml
@@ -121,12 +122,11 @@ script:
       - service: rest_command.pico_toggle_gate
 ```
 
-### 3) Automations (`automations.yaml`)
+### 3) Automations
 
 Example: Open the gate when a specific person arrives home.
 Can be integrated with sensor that checks if the gate is open or closed
 
-```
 ### 4) Lovelace Buttons (UI)
 
 Add a **Button** card and call the script on tap:
