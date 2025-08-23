@@ -1,6 +1,7 @@
 # Raspberry Pi Pico W - Gate Controller via Relay Switch
 
-A lightweight web server that runs on a **Raspberry Pi Pico W** to toggle a relay switch,
+A lightweight web server that runs on a **Raspberry Pi Pico W** to toggle a relay switch
+
 For my purposes, the relay switch is soldered to a 433Mhz gate controller to close the switch and simulate a physical button press.
 ---
 
