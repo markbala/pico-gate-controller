@@ -32,12 +32,15 @@ def connect_wifi(ssid, password, timeout_s=20):
     sta = network.WLAN(network.STA_IF)
     sta.active(True)
     if not sta.isconnected():
+        print("[LOG] Wi-Fi: connecting…")
         sta.connect(ssid, password)
         start = time.ticks_ms()
         while not sta.isconnected():
             if time.ticks_diff(time.ticks_ms(), start) > (timeout_s * 1000):
+                print("[WARN] Wi-Fi: connect timeout")
                 return None
             time.sleep(0.2)
+    print("[LOG] Wi-Fi: connected", sta.ifconfig())
     return sta
 
 sta = connect_wifi(secrets.WIFI_SSID, secrets.WIFI_PASSWORD)
@@ -52,29 +55,67 @@ s = socket.socket()
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind(addr)
 s.listen(5)
-print("Listening on", addr)
+print("[LOG] Listening on", addr)
 
 def toggle_gate():
+    print("[LOG] Gate toggle start")
     relay.value(1)
-    time.sleep(1)
+    time.sleep(1.2)
     relay.value(0)
+    print("[LOG] Gate toggle end")
 
 def http_send(conn, body, code=200, ctype="text/html"):
-    conn.send("HTTP/1.1 {} OK\r\n".format(code))
-    conn.send("Content-Type: {}\r\n".format(ctype))
-    conn.send("Connection: close\r\n\r\n")
-    conn.sendall(body if isinstance(body, str) else str(body))
+    try:
+        conn.send("HTTP/1.1 {} OK\r\n".format(code))
+        conn.send("Content-Type: {}\r\n".format(ctype))
+        conn.send("Connection: close\r\n\r\n")
+        conn.sendall(body if isinstance(body, str) else str(body))
+        print("[LOG] Sent response with code", code, "| length:", len(body))
+    except Exception as e:
+        print("[ERR] Send failed:", e)
+        raise
+
+def ensure_wifi(ssid, password):
+    sta = network.WLAN(network.STA_IF)
+    if not sta.isconnected():
+        print("[WARN] Wi-Fi dropped, reconnecting…")
+        sta.connect(ssid, password)
+        for _ in range(50):  # ~10s timeout
+            if sta.isconnected():
+                print("[LOG] Wi-Fi reconnected", sta.ifconfig())
+                break
+            time.sleep(0.2)
 
 while True:
     try:
+        ensure_wifi(secrets.WIFI_SSID, secrets.WIFI_PASSWORD)
         conn, addr = s.accept()
-        conn.settimeout(3.0)
-        req = conn.recv(1024)
-        conn.settimeout(None)
+        print("[LOG] Accepted connection from", addr)
+        start = time.ticks_ms()
+
+        conn.settimeout(1.0)  # shorter wait for idle sockets
+        try:
+            req = conn.recv(1024)
+        except OSError as oe:
+            # 110 = ETIMEDOUT (client connected but sent nothing)
+            if getattr(oe, "args", [None])[0] == 110:
+                print("[INFO] Idle connection (no data), closed")
+                conn.close()
+                continue
+            raise
+        finally:
+            conn.settimeout(None)
+
+
+        first_line = req.split(b"\r\n", 1)[0]
+        try:
+            print("[LOG] Request:", first_line.decode())
+        except:
+            print("[LOG] Request (raw):", first_line)
 
         path, query = parse_request_path(req)
+        print("[LOG] Parsed path:", path)
 
-        global led_state
         code = 200
 
         if path == "/":
@@ -83,11 +124,13 @@ while True:
         elif path == "/led_on":
             LED.on()
             led_state = "ON"
+            print("[LOG] Action: LED ON")
             body = html_page(led_state)
 
         elif path == "/led_off":
             LED.off()
             led_state = "OFF"
+            print("[LOG] Action: LED OFF")
             body = html_page(led_state)
 
         elif path == "/toggle_gate":
@@ -96,16 +139,23 @@ while True:
 
         else:
             code, body = 404, "Not Found"
+            print("[WARN] 404 Not Found:", path)
 
         http_send(conn, body, code=code)
         conn.close()
+
+        elapsed = time.ticks_diff(time.ticks_ms(), start)
+        print("[LOG] Served", path, "in", elapsed, "ms | free mem:", gc.mem_free())
+
         gc.collect()
-    except OSError:
+    except OSError as oe:
         try: conn.close()
         except: pass
-        print("Connection closed")
+        print("[ERR] OSError:", oe)
+        print("[WARN] Connection closed due to OSError")
     except Exception as e:
         try: conn.close()
         except: pass
-        print("Error:", e)
+        print("[ERR] Exception:", e)
         gc.collect()
+
