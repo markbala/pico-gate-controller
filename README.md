@@ -120,12 +120,11 @@ script:
       - service: rest_command.pico_toggle_gate
 ```
 
-### 3) Automations (`automations.yaml`)
+### 3) Automations
 
 Example: Open the gate when a specific person arrives home.
 Can be integrated with sensor that checks if the gate is open or closed
 
-```
 ### 4) Lovelace Buttons (UI)
 
 Add a **Button** card and call the script on tap:
