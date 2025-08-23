@@ -73,15 +73,14 @@ mpremote cp src/utils.py :/utils.py
 mpremote cp src/secrets.py :/secrets.py
 ```
 
-
 ### 5. Reboot and check
 - Reboot
 - Open the serial console — you should see Wi-Fi connect logs and the Pico’s IP address.  
-- Visit `http://<pico-ip>/` in a browser.  
+- Visit `http://<pico-ip>/` in a browser. Should be a local IP, e.g.`http://192.168.x.x`  
 
 ## Security Notes
 
-- No TLS, no strong authentication.
+- No TLS
 - Use only on private LANs or behind a VPN / reverse proxy (Tailscale, Cloudflare Tunnel).
 - Never expose directly to the internet.
 
