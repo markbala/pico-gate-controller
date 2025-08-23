@@ -42,7 +42,7 @@ git clone https://github.com/<your-username>/pico-gate-controller.git
 cd pico-gate-controller
 ```
 
-### 3. Create your secrets
+### 3. Input WiFi Credentials
 Copy the example file:
 ```bash
 cp src/secrets.example.py src/secrets.py
