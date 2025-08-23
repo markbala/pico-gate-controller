@@ -1,4 +1,6 @@
-# Raspberry Pi Pico W - Gate Controller via Relay Switch
+# Make a Dumb Gate Controller Smart
+
+Home Assistant to Control a Pico Pi W to Trigger a Gate Controller Button Press via a Relay Switch
 
 - A lightweight web server that runs on a **Raspberry Pi Pico W** to toggle a relay switch.
 - Easily integrated into Home Assistant to work with sensors, automations and scripts
