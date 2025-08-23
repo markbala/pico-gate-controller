@@ -89,7 +89,7 @@ mpremote cp src/secrets.py :/secrets.py
 ## 6. Home Assistant Integration
 
 You can call the Pico endpoints from Home Assistant using `rest_command`, then wrap them in a `script` and trigger them via an `automation` or UI button.
-```
+
 ### 1) REST Commands (`configuration.yaml`)
 
 ```yaml
