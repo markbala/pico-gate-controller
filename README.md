@@ -1,16 +1,17 @@
-# Pico Gate Controller (Raspberry Pi Pico W, MicroPython)
+# Raspberry Pi Pico W - Gate Controller via Relay Switch
 
-A lightweight web server that runs on a **Raspberry Pi Pico W** to toggle a relay switch.
+- A lightweight web server that runs on a **Raspberry Pi Pico W** to toggle a relay switch.
+- Easily integrated into Home Assistant to work with sensors, automations and scripts
+- For my purposes, the relay switch is soldered to a 433Mhz gate controller to close the switch and simulate a physical button press.
 
-For my purposes, the relay switch is soldered to a 433Mhz gate controller to close the switch and simulate a physical button press.
 ---
 
 ## Features
 
 - Minimal HTTP server with routes:
   - `/` – simple UI page
-  - `/led_on`, `/led_off` – onboard LED control
-  - `/toggle_gate` – pulse a relay (GPIO 20 by default) for 1s
+  - `/led_on`, `/led_off` – onboard LED control, I used this to make sure everything was working before soldering the relay to the Pico Pi
+  - `/toggle_gate` – pulse a relay for 1s (**GPIO 20** by default, but check the pinout to confirm that you are soldered to the right GPIO) 
 - No external CSS/JS dependencies — small footprint for MicroPython
 
 ---
@@ -18,10 +19,10 @@ For my purposes, the relay switch is soldered to a 433Mhz gate controller to clo
 ## Hardware
 
 - **Raspberry Pi Pico W**
-- Relay module connected to **GPIO 20** (adjustable in `main.py`)
+- **1-channel Relay Switch**
+- **433MHz (or 330MHz) Gate Controller**
+- Connect the Gate Controller to the Relay Module, and the Relay Module to **GPIO 20** of the Pico Pi (adjustable in `main.py`)
 - 3.3V logic — ensure your relay board is compatible
-
-
 ---
 
 ## Demo
@@ -33,7 +34,7 @@ For my purposes, the relay switch is soldered to a 433Mhz gate controller to clo
 ## Setup
 
 ### 1. Flash MicroPython
-Flash the official [MicroPython firmware](https://micropython.org/download/rp2-pico-w/) to your Pico W using the Raspberry Pi instructions.
+Flash the official [MicroPython firmware](https://micropython.org/download/rp2-pico-w/) to your Pico Pi W using the Raspberry Pi instructions.
 
 ### 2. Clone this repository
 ```bash
@@ -72,10 +73,6 @@ mpremote cp src/utils.py :/utils.py
 mpremote cp src/secrets.py :/secrets.py
 ```
 
-> ✅ **Tip**: You can also put helper modules inside `/lib/` if you prefer:
-> ```bash
-> mpremote cp src/utils.py :/lib/utils.py
-> ```
 
 ### 5. Reboot and check
 - Reboot
