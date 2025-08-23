@@ -78,9 +78,6 @@ mpremote cp src/secrets.py :/secrets.py
 - Reboot
 - Open the serial console — you should see Wi-Fi connect logs and the Pico’s IP address.  
 - Visit `http://<pico-ip>/ in a browser.  
-```
-
----
 
 ## Security Notes
 
@@ -90,10 +87,10 @@ mpremote cp src/secrets.py :/secrets.py
 
 ---
 
-## Home Assistant Integration
+## 6. Home Assistant Integration
 
 You can call the Pico endpoints from Home Assistant using `rest_command`, then wrap them in a `script` and trigger them via an `automation` or UI button.
-
+```
 ### 1) REST Commands (`configuration.yaml`)
 
 ```yaml
@@ -130,7 +127,6 @@ Example: Open the gate when a specific person arrives home.
 Can be integrated with sensor that checks if the gate is open or closed
 
 ```
-
 ### 4) Lovelace Buttons (UI)
 
 Add a **Button** card and call the script on tap:
