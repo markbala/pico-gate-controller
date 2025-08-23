@@ -26,10 +26,8 @@ For my purposes, the relay switch is soldered to a 433Mhz gate controller to clo
 
 ## Demo
 
-![Pico Gate Controller UI](docs/demo_screenshot.png)
-
-> Prefer something interactive? Open the static demo page: [`docs/demo.html`](docs/demo.html)
-
+![Pico Gate Controller UI](docs/demo_screenshot1.png)
+![Pico Pi + Relay + Gate Controller ](docs/demo_screenshot2.jpeg)
 ---
 
 ## Setup
