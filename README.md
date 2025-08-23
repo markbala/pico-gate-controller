@@ -77,7 +77,7 @@ mpremote cp src/secrets.py :/secrets.py
 ### 5. Reboot and check
 - Reboot
 - Open the serial console — you should see Wi-Fi connect logs and the Pico’s IP address.  
-- Visit `http://<pico-ip>/ in a browser.  
+- Visit `http://<pico-ip>/` in a browser.  
 
 ## Security Notes
 
