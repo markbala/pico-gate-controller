@@ -61,19 +61,8 @@ WIFI_PASSWORD = "YourPassword"
 - `src/secrets.py` is `.gitignore`’d — never commit your real passwords.
 
 ### 4. Upload to Pico W
-You need `main.py`, `utils.py`, and your `secrets.py` on the board.  
+Use Thonny to upload the src folder (or just these 3 scripts) `main.py`, `utils.py`, and your `secrets.py` onto the board.  
 
-With `mpremote`:
-```bash
-# Upload main file
-mpremote cp src/main.py :/main.py
-
-# Upload helper module
-mpremote cp src/utils.py :/utils.py
-
-# Upload your personal secrets (do not share this file)
-mpremote cp src/secrets.py :/secrets.py
-```
 
 ### 5. Reboot and check
 - Reboot
@@ -98,14 +87,6 @@ You can call the Pico endpoints from Home Assistant using `rest_command`, then w
 rest_command:
   pico_toggle_gate:
     url: "http://PICO_IP/toggle_gate"
-    method: get
-
-  pico_led_on:
-    url: "http://PICO_IP/led_on"
-    method: get
-
-  pico_led_off:
-    url: "http://PICO_IP/led_off"
     method: get
 ```
 
@@ -149,3 +130,8 @@ tap_action:
 ## License
 
 MIT — see [LICENSE](./LICENSE).
+
+## Credits
+
+Initial code by Vivian Balakrishnan
+Adapted for everyday use by Mark Balakrishnan
