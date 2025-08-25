@@ -60,7 +60,7 @@ print("[LOG] Listening on", addr)
 def toggle_gate():
     print("[LOG] Gate toggle start")
     relay.value(1)
-    time.sleep(1.2)
+    time.sleep(1)
     relay.value(0)
     print("[LOG] Gate toggle end")
 
