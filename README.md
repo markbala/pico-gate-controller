@@ -62,10 +62,11 @@ WIFI_PASSWORD = "YourPassword"
 Use Thonny to upload the src folder (or just these 3 scripts) `main.py`, `utils.py`, and your `secrets.py` onto the board.  
 
 
-### 5. Reboot and check
+### 5. Reboot. Script will run automatically upon boot
 - Reboot
-- Open the serial console — you should see Wi-Fi connect logs and the Pico’s IP address.  
+- Identify the IP address of the Pico Pi W through your router.  
 - Visit `http://<pico-ip>/` in a browser. Should be a local IP, e.g.`http://192.168.x.x`  
+- Set a fixed IP for this device for convenience thereafter.
 
 ## Security Notes
 
