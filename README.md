@@ -1,10 +1,10 @@
 # Make a Dumb Gate Controller Smart
 
-Home Assistant to Control a Pico Pi W to Trigger a Gate Controller Button Press via a Relay Switch
+Raspberry Pico Pi W to Trigger a 330 MHz Gate Controller via a Relay Switch
 
-- A lightweight web server that runs on a **Raspberry Pi Pico W** to toggle a relay switch.
+- A lightweight web server on a **Pi Pico W** to toggle a relay switch.
 - Easily integrated into Home Assistant to work with sensors, automations and scripts
-- For my purposes, the relay switch is soldered to a 433Mhz gate controller to close the switch and simulate a physical button press.
+- For my purposes, the relay switch is soldered to a 330Mhz gate controller to close the switch and simulate a physical button press.
 
 ---
 
@@ -13,8 +13,7 @@ Home Assistant to Control a Pico Pi W to Trigger a Gate Controller Button Press 
 - Minimal HTTP server with routes:
   - `/` – simple UI page
   - `/led_on`, `/led_off` – onboard LED control, I used this to make sure everything was working before soldering the relay to the Pico Pi
-  - `/toggle_gate` – pulse a relay for 1s (**GPIO 20** by default, but check the pinout to confirm that you are soldered to the right GPIO) 
-- No external CSS/JS dependencies — small footprint for MicroPython
+  - `/toggle_gate` – pulse a relay for 1s (**GPIO 20** by default, but you can tweak this in the code) 
 
 ---
 
@@ -22,9 +21,8 @@ Home Assistant to Control a Pico Pi W to Trigger a Gate Controller Button Press 
 
 - **Raspberry Pi Pico W**
 - **1-channel Relay Switch**
-- **433MHz (or 330MHz) Gate Controller**
+- **330MHz (or 433MHz) Gate Controller, or really any other similar remote**
 - Connect the Gate Controller to the Relay Module, and the Relay Module to **GPIO 20** of the Pico Pi (adjustable in `main.py`)
-- 3.3V logic — ensure your relay board is compatible
 ---
 
 ## Demo
@@ -40,11 +38,11 @@ Flash the official [MicroPython firmware](https://micropython.org/download/rp2-p
 
 ### 2. Clone this repository
 ```bash
-git clone https://github.com/<your-username>/pico-gate-controller.git
+git clone https://github.com/markbala/pico-gate-controller
 cd pico-gate-controller
 ```
 
-### 3. Input WiFi Credentials
+### 3. Input WiFi Credentials, save a secrets.py file
 Copy the example file:
 ```bash
 cp src/secrets.example.py src/secrets.py
@@ -71,8 +69,7 @@ Use Thonny to upload the src folder (or just these 3 scripts) `main.py`, `utils.
 
 ## Security Notes
 
-- No TLS
-- Use only on private LANs or behind a VPN / reverse proxy (Tailscale, Cloudflare Tunnel).
+- Use exclusively on private LANs or behind a VPN / reverse proxy (Tailscale, Cloudflare Tunnel).
 - Never expose directly to the internet.
 
 ---
