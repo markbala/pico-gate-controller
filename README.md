@@ -1,6 +1,6 @@
-# Make a Dumb Gate Controller Smart
+# Pico Pi Powered Garage or Gate Controller
 
-Raspberry Pico Pi W to Trigger a 330 MHz Gate Controller via a Relay Switch
+Raspberry Pico Pi W to Trigger a 330 MHz Gate/Garage Controller via a Relay Switch
 
 - A lightweight web server on a **Pi Pico W** to toggle a relay switch.
 - Easily integrated into Home Assistant to work with sensors, automations and scripts
